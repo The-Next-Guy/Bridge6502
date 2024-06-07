@@ -9,7 +9,7 @@ java {
 }
 
 application{
-    mainClass = 'org.xemplarsoft.Main'
+    mainClass = 'com.xemplarsoft.Main'
 }
 
 sourceSets {
@@ -44,14 +44,14 @@ jar {
         include "**"
     }
     manifest {
-        attributes 'Main-Class': application.mainClass
+        attributes 'Main-Class': "com.xemplarsoft.bridge.Main"
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
-group = 'org.xemplarsoft'
+group = 'com.xemplarsoft'
 version = '1.0'
 
 repositories {
