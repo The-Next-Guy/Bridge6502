@@ -22,3 +22,18 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+assets/config.properties
+assets/toolchain/vasm6502_oldstyle.exe
+# You must obtain your own version and drop it in the toolchain folder.
+
+gradlew
+gradlew.bat
+
+.gradle
+.idea
+build/*
+out/*
+binaries/*
+
+libraries/jsyntaxpane/jsyntaxpane/target

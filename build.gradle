@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+application{
+    mainClass = 'org.xemplarsoft.Main'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/java"
+        }
+    }
+}
+
+tasks.withType(Tar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(Zip).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(ProcessResources).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+configurations {
+    // configuration that holds jars to copy into lib
+    extraLibs
+}
+
+jar {
+    destinationDirectory.set(file("$buildDir/../out"))
+    copy {
+        from "$buildDir/../assets"
+        into "$buildDir/../out/assets"
+        include "**"
+    }
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+group = 'org.xemplarsoft'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://clojars.org/repo/"
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "com.github.weisj:jsvg:1.4.0"
+    implementation group: 'com.fazecast', name: 'jSerialComm', version: '2.10.4'
+    implementation group: 'org.graalvm.js', name: 'js', version: '22.0.0'
+    implementation group: 'org.graalvm.js', name: 'js-scriptengine', version: '22.0.0'
+    implementation files('libraries/jsyntaxpane-1.1.5.jar')
+}
+
+test {
+    useJUnitPlatform()
+}
